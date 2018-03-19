@@ -35,28 +35,28 @@
         })
 
 
-        $('#jsEmailRegBtn').click(function(){  // #id_captcha_1为输入框的id，当该输入框失去焦点是触发函数
-
-            var error_flag = 0;
-            if ($('#id_email').val() == "") {
-                $('#message').remove()
-                $('#jsEmailTips').after('<span id="message" style="color:red">*邮箱不能为空</span>')
-                return false
-
-            }
-            if ($('#id_password').val() == ""){
-                $('#message').remove()
-                $('#jsEmailTips').after('<span id="message" style="color:red">*密码不能为空</span>')
-                return false
-
-            };
-            if ($('#id_reg_captcha_1').val() == ""){
-                $('#message').remove()
-                $('#jsEmailTips').after('<span id="message" style="color:red">*验证码不能为空</span>')
-                return false
-
-            };
-        })
+        // $('#jsEmailRegBtn').click(function(){  // #id_captcha_1为输入框的id，当该输入框失去焦点是触发函数
+        //
+        //     var error_flag = 0;
+        //     if ($('#id_email').val() == "") {
+        //         $('#message').remove()
+        //         $('#jsEmailTips').after('<span id="message" style="color:red">*邮箱不能为空1</span>')
+        //         return false
+        //
+        //     }
+        //     if ($('#id_password').val() == ""){
+        //         $('#message').remove()
+        //         $('#jsEmailTips').after('<span id="message" style="color:red">*密码不能为空</span>')
+        //         return false
+        //
+        //     };
+        //     if ($('#id_reg_captcha_1').val() == ""){
+        //         $('#message').remove()
+        //         $('#jsEmailTips').after('<span id="message" style="color:red">*验证码不能为空</span>')
+        //         return false
+        //
+        //     };
+        // })
 
 
     })

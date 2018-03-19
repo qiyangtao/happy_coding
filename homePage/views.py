@@ -24,23 +24,29 @@ def register_do(request):
         hashkey = CaptchaStore.generate_key()
         imgage_url = captcha_image_url(hashkey)
         if request.method == "POST":
+
             register_form = RegisterForm(request.POST)
+            username = request.cleaned_data.get("email")
+            user = User.objects.filter(username=username).first()
+            print (register_form)
             if register_form.is_valid():
                 user = User.objects.create(email=register_form.cleaned_data["email"],
                                            username=register_form.cleaned_data["email"],
-                                           password=register_form.cleaned_data["password"],
+                                           password=make_password(register_form.cleaned_data["password"]),
                                            is_active=False,)
                 user.save()
                 user.backend = 'django.contrib.auth.backends.ModelBackend'
                 login(request, user)
                 return redirect('/')
             else:
-                return render(request, "register.html", register_form)
+                print(register_form.cleaned_data)
+                register_form = RegisterForm(request.POST)
+                return render(request, 'register.html', locals())
         else:
             register_form = RegisterForm()
     except Exception as e:
         logger.error(e)
-    return render(request, "register.html", locals())
+    return render(request, 'register.html', locals())
 
 
 def login_do(request):
@@ -56,7 +62,8 @@ def login_do(request):
                     login(request, user)
                     return redirect(request.POST.get('source_url'))
                 else:
-                    return render(request, 'login.html', {'reason': 'pwd_error'})
+                    reason = 'pwd_error'
+                    return render(request, 'login.html', locals())
             else:
                 return render(request, 'login.html', locals())
         else:
