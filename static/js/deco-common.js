@@ -290,7 +290,7 @@ $(function() {
             }
         });
     });
-    $(".scrollLoading").scrollLoading();
+    // $(".scrollLoading").scrollLoading();
     //兼容IE9下placeholder不显示问题
     function isPlaceholder(){
         var input = document.createElement('input');

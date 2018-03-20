@@ -140,9 +140,9 @@ AUTH_USER_MODEL = 'homePage.User'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.163.com'   # 服务器
-EMAIL_PORT = 587               # 一般情况下都为25
+EMAIL_PORT = 25               # 一般情况下都为25
 EMAIL_HOST_USER = "qiyangtao002@163.com"   # 账号
-EMAIL_HOST_PASSWORD = "qiyangtao009"  # 密码
+EMAIL_HOST_PASSWORD = "qiyangtao008"  # 密码
 EMAIL_USE_TLS = True             # 一般都为False
 EMAIL_FROM = "qiyangtao002@163.com"        # 邮箱来自
 

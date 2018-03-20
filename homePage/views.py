@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import *
@@ -15,44 +14,60 @@ logger = logging.getLogger('homePage.view')
 
 
 def home(request):
-    print (request.user)
     return render(request, "index.html", locals())
 
 
 def register_do(request):
     try:
-        hashkey = CaptchaStore.generate_key()
-        imgage_url = captcha_image_url(hashkey)
+        mobile_hashkey = CaptchaStore.generate_key()
+        email_hashkey = CaptchaStore.generate_key()
+        mobile_imgage_url = captcha_image_url(mobile_hashkey)
+        email_imgage_url = captcha_image_url(email_hashkey)
         if request.method == "POST":
-
-            register_form = RegisterForm(request.POST)
-            username = request.cleaned_data.get("email")
-            user = User.objects.filter(username=username).first()
-            print (register_form)
-            if register_form.is_valid():
-                user = User.objects.create(email=register_form.cleaned_data["email"],
-                                           username=register_form.cleaned_data["email"],
-                                           password=make_password(register_form.cleaned_data["password"]),
-                                           is_active=False,)
-                user.save()
-                user.backend = 'django.contrib.auth.backends.ModelBackend'
-                login(request, user)
-                return redirect('/')
+            # 如果是手机注册
+            if request.POST["type"] == "mobile":
+                mobile_register_form = MobileRegisterForm(request.POST)
+                if mobile_register_form.is_valid():
+                    user = User.objects.create(mobile=mobile_register_form.cleaned_data["mobile"],
+                                               username=mobile_register_form.cleaned_data["mobile"],
+                                               password=make_password(mobile_register_form.cleaned_data["password"]),
+                                               is_active=False,)
+                    user.save()
+                    user.backend = 'django.contrib.auth.backends.ModelBackend'
+                    login(request, user)
+                    return redirect('/')
+                else:
+                    mobile_register_form = MobileRegisterForm(request.POST)
+                    email_register_form = EmailRegisterForm()
+                    return render(request, 'register.html', locals())
+            # 如果是邮件注册
             else:
-                print(register_form.cleaned_data)
-                register_form = RegisterForm(request.POST)
-                return render(request, 'register.html', locals())
+                email_register_form = EmailRegisterForm(request.POST)
+                if email_register_form.is_valid():
+                    user = User.objects.create(email=email_register_form.cleaned_data["email"],
+                                               username=email_register_form.cleaned_data["email"],
+                                               password=make_password(email_register_form.cleaned_data["password1"]),
+                                               is_active=False,)
+                    user.save()
+                    user.backend = 'django.contrib.auth.backends.ModelBackend'
+                    login(request, user)
+                    return redirect('/')
+                else:
+                    email_register_form = EmailRegisterForm(request.POST)
+                    mobile_register_form = MobileRegisterForm()
+                    return render(request, 'register.html', locals())
         else:
-            register_form = RegisterForm()
+            mobile_register_form = MobileRegisterForm()
+            email_register_form = EmailRegisterForm()
     except Exception as e:
-        logger.error(e)
+        print(e)
     return render(request, 'register.html', locals())
 
 
 def login_do(request):
     try:
         if request.method == 'POST':
-            login_form = LoginForm(request.POST)
+            login_form = EmailRegisterForm(request.POST)
             if login_form.is_valid():
                 username = login_form.cleaned_data["username"]
                 password = login_form.cleaned_data["password"]
@@ -67,7 +82,7 @@ def login_do(request):
             else:
                 return render(request, 'login.html', locals())
         else:
-            login_form = LoginForm()
+            login_form = EmailRegisterForm()
     except Exception as e:
         logger.error(e)
     return render(request, "login.html", locals())

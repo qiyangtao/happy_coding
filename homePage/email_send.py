@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 from random import Random # 用于生成随机码
 from django.core.mail import send_mail # 发送邮件模块
 from models import EmailVerifyRecord # 邮箱验证model
