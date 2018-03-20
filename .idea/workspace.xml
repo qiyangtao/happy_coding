@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43d60437-ca1f-441c-9a53-e28226f2b5fd" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/happy_coding.iml" afterPath="$PROJECT_DIR$/.idea/happy_coding.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change beforePath="$PROJECT_DIR$/homePage/forms.py" afterPath="$PROJECT_DIR$/homePage/forms.py" />
-      <change beforePath="$PROJECT_DIR$/homePage/migrations/0001_initial.py" afterPath="$PROJECT_DIR$/homePage/migrations/0001_initial.py" />
-      <change beforePath="$PROJECT_DIR$/homePage/migrations/0002_emailverifyrecord.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/homePage/migrations/0003_auto_20180317_1328.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/homePage/migrations/0004_auto_20180317_1351.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/homePage/models.py" afterPath="$PROJECT_DIR$/homePage/models.py" />
-      <change beforePath="$PROJECT_DIR$/homePage/views.py" afterPath="$PROJECT_DIR$/homePage/views.py" />
-      <change beforePath="$PROJECT_DIR$/static/js/register.js" afterPath="$PROJECT_DIR$/static/js/register.js" />
-      <change beforePath="$PROJECT_DIR$/templates/html/login.html" afterPath="$PROJECT_DIR$/templates/html/login.html" />
-      <change beforePath="$PROJECT_DIR$/templates/html/register.html" afterPath="$PROJECT_DIR$/templates/html/register.html" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -302,6 +288,14 @@
       <option name="presentableId" value="Default" />
       <updated>1521437788586</updated>
     </task>
+    <task id="LOCAL-00001" summary="update">
+      <created>1521459368931</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1521459368931</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -335,6 +329,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
