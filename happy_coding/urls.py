@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^login/$', views.login_do, name="login"),
     url(r'^captcha/', include('captcha.urls')),
     url('^ajax_val/', views.ajax_val, name='ajax_val'),
+    url('^sms_sender/', views.sms_sender, name='sms_sender'),
     url(r'^active/(?P<active_code>.*)/$', ActiveUserView.as_view(), name="user_active"),  # 提取出active后的所有字符赋给active_code
     url(r'^admin/', admin.site.urls),
 ]

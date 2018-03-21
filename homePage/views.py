@@ -8,6 +8,10 @@ from django.contrib.auth.hashers import make_password
 from forms import *
 from models import *
 import logging
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
+import email_send
+import sms_send
 
 # Create your views here.
 logger = logging.getLogger('homePage.view')
@@ -17,6 +21,7 @@ def home(request):
     return render(request, "index.html", locals())
 
 
+@cache_page(60 * 15)  # 秒数，这里指缓存 15 分钟，不直接写900是为了提高可读性
 def register_do(request):
     try:
         mobile_hashkey = CaptchaStore.generate_key()
@@ -28,14 +33,22 @@ def register_do(request):
             if request.POST["type"] == "mobile":
                 mobile_register_form = MobileRegisterForm(request.POST)
                 if mobile_register_form.is_valid():
-                    user = User.objects.create(mobile=mobile_register_form.cleaned_data["mobile"],
-                                               username=mobile_register_form.cleaned_data["mobile"],
-                                               password=make_password(mobile_register_form.cleaned_data["password"]),
-                                               is_active=False,)
-                    user.save()
-                    user.backend = 'django.contrib.auth.backends.ModelBackend'
-                    login(request, user)
-                    return redirect('/')
+                    mobile = mobile_register_form.cleaned_data["mobile"],
+                    mobile_code = mobile_register_form.cleaned_data["sms"],
+                    if cache.get(mobile) == mobile_code:
+                        user = User.objects.create(mobile=mobile,
+                                                   username=mobile,
+                                                   password=make_password(mobile_register_form.cleaned_data["password"]),
+                                                   is_active=True,)
+                        user.save()
+                        user.backend = 'django.contrib.auth.backends.ModelBackend'
+                        login(request, user)
+                        return redirect('/')
+                    else:
+                        sms_result = "短信验证码错误！"
+                        mobile_register_form = MobileRegisterForm(request.POST)
+                        email_register_form = EmailRegisterForm()
+                        return render(request, 'register.html', locals())
                 else:
                     mobile_register_form = MobileRegisterForm(request.POST)
                     email_register_form = EmailRegisterForm()
@@ -44,14 +57,19 @@ def register_do(request):
             else:
                 email_register_form = EmailRegisterForm(request.POST)
                 if email_register_form.is_valid():
-                    user = User.objects.create(email=email_register_form.cleaned_data["email"],
-                                               username=email_register_form.cleaned_data["email"],
-                                               password=make_password(email_register_form.cleaned_data["password1"]),
-                                               is_active=False,)
-                    user.save()
-                    user.backend = 'django.contrib.auth.backends.ModelBackend'
-                    login(request, user)
-                    return redirect('/')
+                    email = email_register_form.cleaned_data["email"],
+                    result = email_send(email)
+                    if result == 0:
+                        user = User.objects.create(email=email,
+                                                   username=email,
+                                                   password=make_password(email_register_form.cleaned_data["password1"]),
+                                                   is_active=False,)
+                        user.save()
+                        user.backend = 'django.contrib.auth.backends.ModelBackend'
+                        login(request, user)
+                        return redirect('/')
+                    else:
+                        email_result = "邮件发送失败！"
                 else:
                     email_register_form = EmailRegisterForm(request.POST)
                     mobile_register_form = MobileRegisterForm()
@@ -111,4 +129,14 @@ def ajax_val(request):
         return JsonResponse(json_data) #需要导入  from django.http import JsonResponse
 
 
-
+# 短信验证码发送
+def sms_sender(request):
+    if request.is_ajax():
+        mobile = request.GET['mobile']
+        result = sms_send(mobile)
+        json_data = {'status': result}
+        return JsonResponse(json_data)
+    else:
+        # raise Http404
+        json_data = {'status':1}
+        return JsonResponse(json_data) #需要导入  from django.http import JsonResponse
