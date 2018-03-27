@@ -29,7 +29,6 @@
                     $('#jsEmailTips').after('<span id="message" style="color:red">*验证码错误</span>')
                 };
                 if(data['status'] == 0 ){
-                    alert(data['status'])
                     return false;
                 }
             })
@@ -51,9 +50,9 @@
             };
             $.getJSON('/sms_sender', json_data, function(data){ //ajax发送
                 if(data['status'] == 0){ //status返回0为验证码发送成功， status返回1为验证码发送失败， 在输入框的后面写入提示信息
-                    $('#jsPhoneRegCaptcha').after('<span id="message" style="color:blue">*验证码成功</span>');
+                    $('#jsPhoneRegCaptcha').after('<span id="message" style="color:blue">*验证码发送成功</span>');
                 }else{
-                    $('#jsPhoneRegCaptcha').after('<span id="message" style="color:red">*验证码失败</span>');
+                    $('#jsPhoneRegCaptcha').after('<span id="message" style="color:red">*验证码发送失败</span>');
                 };
                 if(data['status'] == 1 ){
                     alert(data['status']);

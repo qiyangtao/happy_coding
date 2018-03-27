@@ -13,15 +13,16 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '^8m4d2#^1(uuy+0mg+tz0ke7#a_zxy2!oewo$2l3(6#3uj2uc+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -31,6 +32,10 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+)
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -39,8 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'homePage.apps.HomepageConfig',
-    'captcha'
+    'captcha',
+    'xadmin',
+    'crispy_forms',
+    'users',
+    'courses',
+    'organization',
+    'operation'
 ]
 
 CAPTCHA_IMAGE_SIZE = (78, 36)  #大小
@@ -76,6 +86,14 @@ TEMPLATES = [
         },
     },
 ]
+
+# TEMPLATE_CONTEXT_PROCESSORS = (
+#     'django.contrib.auth.context_processors.auth',
+#     # login 在template中可以用 "{% url socialauth_begin 'douban-oauth2' %}"
+#     'social_auth.context_processors.social_auth_by_type_backends',
+#     'social_auth.context_processors.social_auth_login_redirect',
+# )
+
 
 WSGI_APPLICATION = 'happy_coding.wsgi.application'
 
@@ -121,6 +139,53 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# SOCIAL_AUTH_PIPELINE = (
+#     'social.pipeline.social_auth.social_details',
+#     'social.pipeline.social_auth.social_uid',
+#     'social.pipeline.social_auth.auth_allowed',
+#     'social_auth.backends.pipeline.social.social_auth_user',
+#     # 用户名与邮箱关联，文档说可能出现问题
+#     # 'social_auth.backends.pipeline.associate.associate_by_email',
+#     'social_auth.backends.pipeline.misc.save_status_to_session',
+#     'social_auth.backends.pipeline.user.create_user',
+#     'social_auth.backends.pipeline.social.associate_user',
+#     'social_auth.backends.pipeline.social.load_extra_data',
+#     'social_auth.backends.pipeline.user.update_user_details',
+#     'social_auth.backends.pipeline.misc.save_status_to_session',
+# )
+#
+# AUTHENTICATION_BACKENDS = (
+#         'social_auth.backends.contrib.douban.Douban2Backend',
+#         # 注意这个比较特殊,因为django-social-auth是依赖python-social-auth的
+#         # python-social-auth==0.1.26,已经包含的qq的backend
+#         # django-social-auth==0.8.1, 还没包含进来
+#         # 你需要在django-social-auth/social_auth/backends/contrib中添加一个文件qq.py
+#         # 就一行
+#         # from social.backends.qq import QQOAuth2 as QQBackend
+#         # 然后setup一下就ok
+#         'social_auth.backends.contrib.qq.QQBackend',
+#         'social_auth.backends.contrib.weibo.WeiboBackend',
+#         # 必须加，否则django默认用户登录不上
+#         'django.contrib.auth.backends.ModelBackend',
+# )
+#
+#
+# # 各种重定向连接
+# SOCIAL_AUTH_LOGIN_URL = '/login-url/'
+# SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
+# SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/logged-in/'
+# SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/new-users-redirect-url/'
+# SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/new-association-redirect-url/'
+#
+# # 各种key, secret
+# SOCIAL_AUTH_WEIBO_KEY = 'YOUR KEY'
+# SOCIAL_AUTH_WEIBO_SECRET = 'YOUR SECRET'
+#
+# SOCIAL_AUTH_QQ_KEY = 'YOUR KEY'
+# SOCIAL_AUTH_QQ_SECRET = 'YOUR SECRET'
+#
+# SOCIAL_AUTH_DOUBAN_OAUTH2_KEY = 'YOUR KEY'
+# SOCIAL_AUTH_DOUBAN_OAUTH2_SECRET = 'YOUR SECRET'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -129,13 +194,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'zh-Hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -148,7 +213,7 @@ STATICFILES_DIRS = (
 )
 
 # 自定义Model
-AUTH_USER_MODEL = 'homePage.User'
+AUTH_USER_MODEL = 'users.User'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.163.com'   # 服务器

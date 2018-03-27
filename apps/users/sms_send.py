@@ -32,7 +32,7 @@ def sms_send(mobile , send_type="register"):
             result = ssender.send(86, phone_numbers[0],
                                   template_id, params)
             if result ==0:
-                cache.set(phone_numbers, sms_str)
+                cache.set(phone_numbers, sms_str, 60 *15)
             return result
         except Exception as e:
             print(e)

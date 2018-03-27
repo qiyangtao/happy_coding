@@ -8,10 +8,10 @@ from django.core.validators import RegexValidator
 
 # 登录form
 class LoginForm(forms.Form):
-    username = forms.EmailField(widget=forms.TextInput(attrs={"id":"account_l", "placeholder": "请输入您的邮箱", }, ),
-                                max_length=30, error_messages={"required": "用户名不能为空", "invalid": "邮箱格式不正确"})
+    username = forms.CharField(widget=forms.TextInput(attrs={"id":"account_l", "placeholder": "请输入您的邮箱或者用户名", }, ),
+                               required=True, max_length=30, error_messages={"required": "用户名不能为空",})
     password = forms.CharField(widget=forms.PasswordInput(attrs={"id":"password_l", "placeholder": "请输入您的密码" }),
-                               max_length=30, error_messages={"required": "密码不能为空"})
+                               required=True, max_length=30, error_messages={"required": "密码不能为空"})
 
     # 验证用户是否存在
     def clean_username(self):
@@ -102,3 +102,40 @@ class MobileRegisterForm(forms.Form):
         except Exception as e:
             pass
         return mobile
+
+
+# 忘记密码form
+class ForgetForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={"id":"account_l", "placeholder": "请输入您的邮箱或者用户名", }, ),
+                               required=True, max_length=30, error_messages={"required": "用户名不能为空",})
+    captcha_1 = forms.CharField(max_length=8, error_messages={"required": "验证码不能为空"})
+    captcha = CaptchaField()
+
+    # 验证用户是否存在
+    def clean_username(self):
+        try:
+            username = self.cleaned_data.get("username")
+            user = User.objects.filter(username=username).first()
+            if not user:
+                self._errors["username"] = self.error_class(["用户名不存在！"])
+        except Exception as e:
+            pass
+        return username
+
+
+# reset密码form
+class ModifyForm(forms.Form):
+    email = forms.EmailField(required=True, max_length=30, error_messages={"required": "用户名不能为空",})
+    password = forms.CharField(required=True)
+    password2 = forms.CharField(required=True)
+
+    # 验证两次密码是否一致
+    def clean_email_password2(self):
+        try:
+            password1 = self.cleaned_data.get("password")
+            password2 = self.cleaned_data.get("password2")
+            if password1 != password2:
+                self._errors["password2"] = self.error_class(["两次密码输入不一致！"])
+        except Exception as e:
+            print(password1 != password2)
+        return password2

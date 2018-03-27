@@ -16,17 +16,29 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from homePage import views
-from homePage.activeuser import ActiveUserView
+from django.views.generic import TemplateView
+from users.activeuser import ActiveUserView
+from users.resetuser import ResetUserView
+import xadmin
+
+# from homePage import views
+from users.views import LoginView, register_do, logout_do, sms_sender, ForgetPwdView, ModifyView, UserInfoView
+
 
 urlpatterns = [
-    url(r'^$', include("homePage.urls")),
-    url(r'^logout/$', views.logout_do, name="logout"),
-    url(r'^register/$', views.register_do, name="register"),
-    url(r'^login/$', views.login_do, name="login"),
+    url(r'^xadmin/', xadmin.site.urls),
+    # url(r'^$', include("homePage.urls")),
+    # url('^ajax_val/', views.ajax_val, name='ajax_val'),
+
+    url(r'^$', TemplateView.as_view(template_name="index.html"), name="index"),
+    url(r'^login/$', LoginView.as_view(), name="login"),
+    url(r'^logout/$', logout_do, name="logout"),
+    url(r'^register/$', register_do, name="register"),
     url(r'^captcha/', include('captcha.urls')),
-    url('^ajax_val/', views.ajax_val, name='ajax_val'),
-    url('^sms_sender/', views.sms_sender, name='sms_sender'),
     url(r'^active/(?P<active_code>.*)/$', ActiveUserView.as_view(), name="user_active"),  # 提取出active后的所有字符赋给active_code
-    url(r'^admin/', admin.site.urls),
+    url('^sms_sender/', sms_sender, name='sms_sender'),
+    url('^forget/$', ForgetPwdView.as_view(), name='forget_pwd'),
+    url(r'^reset/(?P<reset_code>.*)/$', ResetUserView.as_view(), name="user_reset"),  # 提取出active后的所有字符赋给active_code
+    url('^modify/$', ModifyView.as_view(), name='modify_pwd'),
+    url('^usercenter-info/', UserInfoView.as_view(), name='usercenter-info'),
 ]
