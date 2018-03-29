@@ -17,12 +17,14 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
-from users.activeuser import ActiveUserView
-from users.resetuser import ResetUserView
+from django.views.static import serve
 import xadmin
 
-# from homePage import views
+from users.activeuser import ActiveUserView
+from users.resetuser import ResetUserView
 from users.views import LoginView, register_do, logout_do, sms_sender, ForgetPwdView, ModifyView, UserInfoView
+from organization.views import OrgListView
+from happy_coding.settings import MEDIA_ROOT
 
 
 urlpatterns = [
@@ -41,4 +43,10 @@ urlpatterns = [
     url(r'^reset/(?P<reset_code>.*)/$', ResetUserView.as_view(), name="user_reset"),  # 提取出active后的所有字符赋给active_code
     url('^modify/$', ModifyView.as_view(), name='modify_pwd'),
     url('^usercenter-info/', UserInfoView.as_view(), name='usercenter-info'),
+    # 课程机构url配置
+    url('^org/', include('organization.urls', namespace="org")),
+    # set the upload path
+    url('^media/(?P<path>.*)/$', serve, {"document_root": MEDIA_ROOT}),
 ]
+# /media/org/2018/03/bjdx.jpg
+#/media/org/2018/03/bjdx.jpg

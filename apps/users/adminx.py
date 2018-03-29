@@ -7,7 +7,7 @@ from .models import EmailVerifyRecord, Banner
 
 class BaseSetting(object):
     enable_themes = True
-    user_bootswatch = True
+    use_bootswatch = True
 
 
 class GlobalSettings(object):
