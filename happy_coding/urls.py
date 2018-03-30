@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from django.contrib import admin
+# from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views.static import serve
 import xadmin
@@ -45,6 +45,8 @@ urlpatterns = [
     url('^usercenter-info/', UserInfoView.as_view(), name='usercenter-info'),
     # 课程机构url配置
     url('^org/', include('organization.urls', namespace="org")),
+    # 课程list url配置
+    url('^course/', include('courses.urls', namespace="course")),
     # set the upload path
     url('^media/(?P<path>.*)/$', serve, {"document_root": MEDIA_ROOT}),
 ]

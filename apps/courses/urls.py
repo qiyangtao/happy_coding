@@ -16,15 +16,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 
-from organization.views import OrgListView, AddUserAskView, OrgDetailView, CourseDetailView, DescDetailView, TeachersDetailView, AddFavView
+from courses.views import CourseListView, CourseDetailView
 
 
 urlpatterns = [
-    url('^list/', OrgListView.as_view(), name='org-list'),
-    url('^add_ask/', AddUserAskView.as_view(), name='add-ask'),
-    url('^detail-homepage/(?P<org_id>\d+)/$', OrgDetailView.as_view(), name='detail-homepage'),
-    url('^detail-course/(?P<org_id>\d+)/$', CourseDetailView.as_view(), name='detail-course'),
-    url('^detail-desc/(?P<org_id>\d+)/$', DescDetailView.as_view(), name='detail-desc'),
-    url('^detail-teachers/(?P<org_id>\d+)/$', TeachersDetailView.as_view(), name='detail-teachers'),
-    url('^add-fav/$', AddFavView.as_view(), name='add-fav'),
+    url('^list/', CourseListView.as_view(), name='course-list'),
+    url('^detail/(?P<course_id>\d+)/$', CourseDetailView.as_view(), name='course-detail'),
 ]
