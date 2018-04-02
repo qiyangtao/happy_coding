@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="43d60437-ca1f-441c-9a53-e28226f2b5fd" name="Default" comment="完成了课程列表页">
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/courses/utils.py" />
+    <list default="true" id="43d60437-ca1f-441c-9a53-e28226f2b5fd" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/apps/courses/urls.py" afterPath="$PROJECT_DIR$/apps/courses/urls.py" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change beforePath="$PROJECT_DIR$/templates/html/base.html" afterPath="$PROJECT_DIR$/templates/html/base.html" />
-      <change beforePath="$PROJECT_DIR$/templates/html/course-comment.html" afterPath="$PROJECT_DIR$/templates/html/course-comment.html" />
-      <change beforePath="$PROJECT_DIR$/templates/html/course-detail.html" afterPath="$PROJECT_DIR$/templates/html/course-detail.html" />
-      <change beforePath="$PROJECT_DIR$/templates/html/course-video.html" afterPath="$PROJECT_DIR$/templates/html/course-video.html" />
-      <change beforePath="$PROJECT_DIR$/templates/html/index.html" afterPath="$PROJECT_DIR$/templates/html/index.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -510,7 +502,14 @@
       <option name="project" value="LOCAL" />
       <updated>1522406272630</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="完成了课程列表页">
+      <created>1522667499911</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1522667499911</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
