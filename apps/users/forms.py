@@ -139,3 +139,26 @@ class ModifyForm(forms.Form):
         except Exception as e:
             print(password1 != password2)
         return password2
+
+
+# reset密码form
+class UpdatePwdForm(forms.Form):
+    password1 = forms.CharField(required=True)
+    password2 = forms.CharField(required=True)
+
+    # 验证两次密码是否一致
+    def clean_password2(self):
+        try:
+            password1 = self.cleaned_data.get("password1")
+            password2 = self.cleaned_data.get("password2")
+            if password1 != password2:
+                self._errors["password2"] = self.error_class(["两次密码输入不一致！"])
+        except Exception as e:
+            print(password1 != password2)
+        return password2
+
+
+class UpLoadForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["image"]

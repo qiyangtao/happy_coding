@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-# from django.contrib import admin
+from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views.static import serve
 import xadmin
@@ -28,7 +28,7 @@ from happy_coding.settings import MEDIA_ROOT
 
 
 urlpatterns = [
-    url(r'^xadmin/', xadmin.site.urls),
+    url(r'^admin/', admin.site.urls),
     # url(r'^$', include("homePage.urls")),
     # url('^ajax_val/', views.ajax_val, name='ajax_val'),
 
@@ -42,7 +42,8 @@ urlpatterns = [
     url('^forget/$', ForgetPwdView.as_view(), name='forget_pwd'),
     url(r'^reset/(?P<reset_code>.*)/$', ResetUserView.as_view(), name="user_reset"),  # 提取出active后的所有字符赋给active_code
     url('^modify/$', ModifyView.as_view(), name='modify_pwd'),
-    url('^usercenter-info/', UserInfoView.as_view(), name='usercenter-info'),
+    # 用户中心url配置
+    url('^users/', include('users.urls', namespace="users")),
     # 课程机构url配置
     url('^org/', include('organization.urls', namespace="org")),
     # 课程list url配置

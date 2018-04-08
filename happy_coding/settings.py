@@ -13,7 +13,10 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import importlib
 import sys
+
+import socket
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,10 +29,24 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 SECRET_KEY = '^8m4d2#^1(uuy+0mg+tz0ke7#a_zxy2!oewo$2l3(6#3uj2uc+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# if socket.gethostbyname('119.27.162.156') == 'VM_0_10_centos':
+#     DEBUG = TEMPLATE_DEBUG = True
+#     DATABASE_NAME = 'devdb'
+# else:
+DEBUG = TEMPLATE_DEBUG = False
+#     DATABASE_NAME = 'pro_db'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*',
+]
 
+ADMINS = (
+    ('陶志强', '393082981@qq.com'),
+)
+
+MANAGERS = (
+    ('陶志强', '393082981@qq.com'),
+)
 
 # Application definition
 AUTHENTICATION_BACKENDS = (
@@ -66,6 +83,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
 ]
 
 ROOT_URLCONF = 'happy_coding.urls'
@@ -104,8 +122,12 @@ WSGI_APPLICATION = 'happy_coding.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'proj_db',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
     }
 }
 
